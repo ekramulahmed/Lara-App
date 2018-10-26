@@ -10,6 +10,37 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 
+// import vform for back-end error
+import { Form, HasError, AlertError } from 'vform'
+
+window.Form = Form;
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
+// import moment js
+import moment from 'moment';
+
+// import vue-progressbar
+import VueProgressBar from 'vue-progressbar'
+
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '2px'
+})
+
+// import sweetalert2
+import swal from 'sweetalert2'
+window.swal = swal;
+
+const toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+window.toast = toast;  
+
 // vue router related code
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -24,8 +55,21 @@ let routes = [
 const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
-  })
+})
   
+// Global Filter
+Vue.filter('upText', function(text){
+    return text.charAt(0).toUpperCase() + text.slice(1)
+});
+
+// using moment js (Global filter)
+Vue.filter('myDate', function(created){
+    return moment(created).format('MMMM Do YYYY');
+});
+
+// instance of vue js
+window.Fire = new Vue();
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
